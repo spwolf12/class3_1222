@@ -26,12 +26,8 @@
 		<hr>
 		<h3><a href="FreeBoardList.bo2">자유게시판</a></h3>
 		<h3>test수정</h3>
-
-		<h3>test수정</h3>
-		<h3>test수정</h3>
-		<h3>test수정</h3>
 		<h3>spring 이 추가 -revert 확인</h3>
-		<h3>spring 이 추가 -revert 확인</h3>
+		<h3>pcw 가 추가 - pcw branch</h3>
 	</article>
 </body>
 </html>
