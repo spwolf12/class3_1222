@@ -30,6 +30,8 @@
 		<h3>test수정</h3>
 		<h3>test수정</h3>
 		<h3>test수정</h3>
+		<h3>spring 이 추가 -revert 확인</h3>
+		<h3>spring 이 추가 -revert 확인</h3>
 	</article>
 </body>
 </html>
