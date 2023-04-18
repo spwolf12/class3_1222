@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.spring_mvc_board_pcw_pcw.mapper.BoardMapper">
+	
+	<!-- 글쓰기 - INSERT -->
+	<!-- 
+	단, 글번호(board_num) 컬럼이 일반 정수 컬럼이므로 기존 게시물 번호 중 가장 큰 번호 조회 후
+	해당 번호 + 1 값을 새 글 번호(board_num) 와 참조글번호(board_re_ref) 값으로 사용
+	=> selectKey 태그를 insert 태그 내에서 사용(SELECT 구문이 먼저이므로 order="BEFORE" 사용)
+	=> 주의! 게시물이 하나도 없을 경우 board_num 이 null 이므로 IFNULL 함수 추가(기본값 0 설정)
+	-->
+	<insert id="insertBoard">
+		<selectKey keyProperty="board_num" resultType="int" order="BEFORE">
+			SELECT IFNULL(MAX(board_num), 0) FROM board
+		</selectKey>
+		INSERT
+			INTO board
+			VALUES (
+				#{board_num} + 1
+				, #{board_name}
+				, #{board_subject}
+				, #{board_content}
+				, #{board_file}
+				, #{board_file_path}
+				, #{board_num} + 1
+				, 0
+				, 0
+				, 0
+				, now()
+			)
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

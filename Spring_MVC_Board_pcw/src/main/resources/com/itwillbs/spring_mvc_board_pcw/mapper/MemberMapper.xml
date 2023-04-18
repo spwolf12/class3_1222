@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.spring_mvc_board_pcw_pcw.mapper.MemberMapper">
+
+	<!-- 회원 가입 - INSERT -->
+	<!-- 회원번호(idx)는 자동 증가이므로 null 전달, 인증상태(auth_status)는 'N' 문자 전달 -->
+	<!-- 이메일(email)은 email1, email2 파라미터를 문자열 결합을 통해 저장 - MySQL 의 CONCAT() 함수 사용 -->
+	<insert id="insertMember">
+		INSERT
+			INTO member
+			VALUES (
+				null,
+				#{name},
+				#{id},
+				#{passwd}, -- 암호문
+<!-- 				#{email}, -->
+				CONCAT(#{email1}, '@', #{email2}), -- email 문자열 결합
+				#{gender},
+				now(),
+				'N'
+			)
+	</insert>
+
+	<!-- 
+	패스워드 조회 - SELECT
+	- BCryptPasswordEncoder 객체를 활용하여 로그인 수행할 경우
+	  암호문으로 저장된 패스워드를 조회하기 위한 SELECT 구문 작성
+	- 이 때, resultType 속성에 리턴할 데이터타입 기술
+	  (조회 결과 패스워드가 1개 컬럼 문자열이므로 String(string) 타입으로 선언하거나
+	   SELECT 결과를 통째로 저장할 MemberVO 타입 선언도 가능!)
+	- SELECT 구문에 사용될 조회 대상 아이디는 파라미터로 전달받은 변수명 id 그대로 사용
+	  (단, 파라미터로 전달받는 변수가 2개 이상일 경우 별도의 조치 필요)
+	-->
+	<select id="selectPasswd" resultType="string">
+		SELECT passwd
+			FROM member
+			WHERE id = #{id}
+	</select>
+	
+	<!-- 회원 정보 조회 -->
+	<select id="selectMemberInfo" resultType="com.itwillbs.spring_mvc_board_pcw.vo.MemberVO">
+		SELECT *
+			FROM member
+			WHERE id = #{id}
+	</select>
+	
+	<!-- 
+	회원 정보 수정
+	- 기본 변경 데이터 : 이름, 이메일(email1, email2 문자열 결합 필요), 성별
+	- 추가 변경 데이터 : 비밀번호
+	- 추가 변경데이터인 비밀번호는 입력하지 않을 수도 있으므로 상황에 따라 SQL 구문이 달라져야함
+	  따라서, MyBatis 의 동적SQL 문법(기능)을 활용하여 SQL 구문을 다르게 실행할 수 있도록 해야함
+	  => 동적 SQL 기능 중 단일 if 문을 사용하여 실행할 문장을 조건에 따라 실행 여부를 결정 가능 
+	     <if test="조건식">조건식 결과가 true 일 때 실행할 쿼리</if>
+	-->
+	<update id="updateMemberInfo">
+		UPDATE member
+			SET
+				name = #{member.name}
+				, gender = #{member.gender}
+				, email = CONCAT(#{member.email1}, '@', #{member.email2})
+				<if test='newPasswd neq ""'>
+				, passwd = #{newPasswd}
+				</if>
+			WHERE
+				id = #{member.id}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember">
+		DELETE
+			FROM member
+			WHERE id = #{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
