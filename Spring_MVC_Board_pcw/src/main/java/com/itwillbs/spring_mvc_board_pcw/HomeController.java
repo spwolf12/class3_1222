@@ -16,6 +16,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
+		// cwp 브런치에서 추가한 내용
+		
 		return "index";
 	}
 	
