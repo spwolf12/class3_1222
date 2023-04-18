@@ -25,6 +25,7 @@
 		<hr>
 		<h3><a href="FreeBoardList.bo2">자유게시판</a></h3>
 		<h3>spring에서 수정</h3>
+		<h3>spring이 추가함</h3>
 	</article>
 </body>
 </html>
